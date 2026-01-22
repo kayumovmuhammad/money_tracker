@@ -17,7 +17,7 @@ from db.models.user import User
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Base.metadata.drop_all(bind=engine)
-    # Base.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
 
     if not firebase_admin._apps:
         settings = Settings()
@@ -58,4 +58,4 @@ async def root(user: User = Depends(get_current_user)):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0")
+    uvicorn.run("main:app", host="0.0.0.0", reload=True, port=8000)

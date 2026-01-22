@@ -175,4 +175,6 @@ pyrightconfig.json
 
 # firebase_admin
 serviceAccountKey.json
+# sqlite3 database
+data.db
 # End of https://www.toptal.com/developers/gitignore/api/python
