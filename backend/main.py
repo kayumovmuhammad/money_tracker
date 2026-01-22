@@ -4,6 +4,7 @@ import firebase_admin
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from firebase_admin import credentials
+import uvicorn
 
 import db.models
 from api.config import Settings
@@ -54,3 +55,7 @@ app.add_middleware(
 @app.get("/")
 async def root(user: User = Depends(get_current_user)):
     return {"message": f"Welcome {user.name} to Money Tracker, created by Q.Muhammad"}
+
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0")
