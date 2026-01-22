@@ -90,6 +90,17 @@ async def read_transactions_partly(
     return {"message": "ok", "transactions": transactions}
 
 
+@router.get("/read/all")
+async def read_transactions(
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    stmt = select(Transaction).where(Transaction.user_id == user.id)
+    transactions = db.scalars(stmt).all()
+
+    return {"message": "ok", "transactions": transactions}
+
+
 @router.get("/read/{id}")
 async def read_transaction(
     id: int,

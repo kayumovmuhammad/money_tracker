@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 
 import firebase_admin
 from fastapi import Depends, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from firebase_admin import credentials
 
 import db.models
@@ -14,8 +15,8 @@ from db.models.user import User
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    Base.metadata.drop_all(bind=engine)
-    Base.metadata.create_all(bind=engine)
+    # Base.metadata.drop_all(bind=engine)
+    # Base.metadata.create_all(bind=engine)
 
     if not firebase_admin._apps:
         settings = Settings()
@@ -35,6 +36,19 @@ app = FastAPI(title="Money Tracker", lifespan=lifespan)
 app.include_router(transaction_router)
 app.include_router(auth_router)
 app.include_router(calclulate_router)
+
+
+origins = [
+    "*",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
