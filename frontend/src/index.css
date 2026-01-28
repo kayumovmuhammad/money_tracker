@@ -1,1 +1,43 @@
 @import "tailwindcss";
+
+@theme {
+    --color-primary: #6366f1;
+    --color-bg: #f8fafc;
+    --color-surface: #f1f5f9;
+    --color-card: #ffffff;
+    --color-text: #0f172a;
+    --color-text-sub: #64748b;
+    --color-border: #e2e8f0;
+    --color-success: #10b981;
+    --color-danger: #ef4444;
+
+    --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+:root {
+    /* Layout Variables */
+    --sidebar-width: 260px;
+    --sidebar-padding-y: 30px;
+    --sidebar-padding-x: 20px;
+
+    --header-padding-y: 20px;
+    --header-padding-x: 40px;
+    --header-padding-y-mobile: 15px;
+    --header-padding-x-mobile: 20px;
+}
+
+@keyframes apper_from_buttom {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.apper_from_buttom {
+    animation: apper_from_buttom 0.3s ease-in-out;
+}
