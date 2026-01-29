@@ -1,10 +1,12 @@
 import React from "react";
 import { ArrowUpRight, ShoppingBag } from "lucide-react";
 import useModalStore from "../contexts/ModalContext";
+import useSettingsStore from "../contexts/SettingsContext";
 
 export default function TransactionItem({ transaction }) {
   const isInc = transaction.type === "income";
   const { setEditModalOpen, setCurrentTransaction } = useModalStore();
+  const {currency} = useSettingsStore();
 
   const onClick = () => {
     setEditModalOpen(true);
@@ -29,7 +31,7 @@ export default function TransactionItem({ transaction }) {
       <div
         className={`font-extrabold text-[1rem] ${isInc ? "text-success" : "text-danger"}`}
       >
-        {isInc ? "+" : "-"}${transaction.money_amount.toFixed(2)}
+        {isInc ? "+" : "-"}{transaction.money_amount.toFixed(2)} {currency}
       </div>
     </div>
   );

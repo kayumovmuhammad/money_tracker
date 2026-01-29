@@ -6,7 +6,7 @@ export const sidebarElements = [
         label: "Dashboard",
         icon: LayoutGrid,
         type: "link",
-        path: "/"
+        path: "/dashboard"
     },
     {
         id: 3,

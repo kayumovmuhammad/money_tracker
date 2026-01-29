@@ -2,11 +2,11 @@ import React from "react";
 import TransactionItem from "./TransactionItem";
 import useTransactions from "../contexts/TransactionsContext";
 
-export default function TransactionList() {
+export default function TransactionList({className}) {
   const { transactions } = useTransactions();
 
   return (
-    <div className="bg-card rounded-[20px] border border-border overflow-hidden">
+    <div className={`${className} bg-card rounded-[20px] border border-border overflow-hidden`}>
       {transactions.length === 0 ? (
         <div className="p-10 text-center text-text-sub">
           No transactions recorded yet.
