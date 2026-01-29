@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from firebase_admin import auth
 from sqlalchemy.orm import Session
 
-from api.schemas.auth import LoginSchema
+from app.schemas.auth import LoginSchema
 from db.get_db import get_db
 from db.models.user import User
 

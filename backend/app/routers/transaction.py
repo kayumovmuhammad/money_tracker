@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from api.config import Settings, get_settings
-from api.schemas.transaction import TransactionAnnotateSchema, TransactionSchema
-from api.utils.gemini import annotate_type_of_transaction
-from api.utils.security import get_current_user
+from app.config import Settings, get_settings
+from app.schemas.transaction import TransactionAnnotateSchema, TransactionSchema
+from app.utils.gemini import annotate_type_of_transaction
+from app.utils.security import get_current_user
 from db.get_db import get_db
 from db.models.transaction import Transaction
 from db.models.user import User

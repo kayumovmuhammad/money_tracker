@@ -3,7 +3,7 @@ import json
 
 from google import genai
 
-from api.config import get_settings
+from app.config import get_settings
 
 
 def ask_gemini(question: str) -> str:
@@ -33,9 +33,9 @@ def annotate_type_of_transaction(user_description: str):
                     "money_amount": Number,
                     "category": "string", # You should write the category name in user's language and only one or two words with like "Food" | "Sport" | "Study" and so on, but use the user's language
                     "payment_type": "once" | "monthly" | "annual" | "weekly" | "daily",
-                    "day": "date_for_once as string("DD:MM")" | "day_of_month as string("DD")" | "date_of_year as string("DD:MM")" | "days of week as number(like monday is 0 and so on) as stringify list(e.g "0,1,2")",
-                    "start_date": "DD:MM:YYYY", # if user doesn't mention the start date, you should paste here current date
-                    "finish_date": "DD:MM:YYYY", # if user doesn't mention the finish date, you may not to add this column
+                    "day": "date_for_once as string("YYYY-MM-DD")" | "day_of_month as string("DD")" | "date_of_year as string("MM-DD")" | "days of week as number from (e.g. 0 is monday | 1 is tuesday  | 2 is wednesday or other)" | "for daily you have to paste null",
+                    "start_date": "YYYY-MM-DD", # if user doesn't mention the start date, you should paste here current date
+                    "finish_date": "YYYY-MM-DD", # if user doesn't mention the finish date, you may not to add this column
                 }
             "
 

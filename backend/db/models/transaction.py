@@ -13,6 +13,6 @@ class Transaction(Base):
     money_amount: Mapped[float]
     category: Mapped[str]
     payment_type: Mapped[str]
-    day: Mapped[str]
+    day: Mapped[str] = mapped_column(nullable=True)
     start_date: Mapped[str]
     finish_date: Mapped[str | None] = mapped_column(nullable=True)
