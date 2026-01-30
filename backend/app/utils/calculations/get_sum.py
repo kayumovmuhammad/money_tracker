@@ -15,6 +15,8 @@ class SumModel(BaseModel):
     sum_by_category: dict[str, float] = {}
     income_by_category: dict[str, float] = {}
     waste_by_category: dict[str, float] = {}
+    income_by_days: dict[str, float] = {}
+    waste_by_days: dict[str, float] = {}
 
 
 def get_sum(
@@ -28,7 +30,7 @@ def get_sum(
         q_start = datetime.strptime(frm, "%Y-%m-%d").date()
         start = max(start, q_start)
 
-        def add_to_sum():
+        def add_to_sum(day: str):
             transaction_sum.sum += transaction_money
             transaction_sum.waste += min(0.0, transaction_money)
             transaction_sum.income += max(0.0, transaction_money)
@@ -41,6 +43,12 @@ def get_sum(
             sum.income_by_category[transaction.category] = sum.income_by_category.get(
                 transaction.category, 0
             ) + max(0.0, transaction_money)
+            sum.waste_by_days[day] = sum.waste_by_days.get(day, 0) + min(
+                0.0, transaction_money
+            )
+            sum.income_by_days[day] = sum.income_by_days.get(day, 0) + max(
+                0.0, transaction_money
+            )
 
         finish = datetime.utcnow().date()
         if transaction.finish_date:
@@ -57,7 +65,7 @@ def get_sum(
         if transaction.payment_type == "once":
             day = datetime.strptime(transaction.day, "%Y-%m-%d").date()
             if q_start <= day <= q_finish:
-                add_to_sum()
+                add_to_sum(str(day))
         else:
             while date <= finish:
                 if transaction.payment_type == "annual":
@@ -65,22 +73,22 @@ def get_sum(
                     month = int(transaction.day.split("-")[0])
 
                     if day == date.day and month == date.month:
-                        add_to_sum()
+                        add_to_sum(str(date))
 
                 elif transaction.payment_type == "monthly":
                     day = int(transaction.day)
 
                     if day == date.day:
-                        add_to_sum()
+                        add_to_sum(str(date))
 
                 elif transaction.payment_type == "weekly":
                     week_day = int(transaction.day)
 
                     if date.weekday() == week_day:
-                        add_to_sum()
+                        add_to_sum(str(date))
 
                 elif transaction.payment_type == "daily":
-                    add_to_sum()
+                    add_to_sum(str(date))
 
                 date += timedelta(days=1)
 

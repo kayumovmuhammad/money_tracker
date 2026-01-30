@@ -11,6 +11,6 @@ class TransactionSchema(BaseModel):
     type: str
     category: str
     payment_type: str
-    day: str
+    day: str = ""
     start_date: str
     finish_date: str | None = None
