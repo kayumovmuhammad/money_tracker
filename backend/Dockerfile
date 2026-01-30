@@ -17,6 +17,8 @@ RUN uv sync --frozen --no-cache
 # Copy the application source code
 COPY app ./app
 COPY db ./db
+COPY serviceAccountKey.json ./
+COPY .env ./
 
 # Stage 2: Final - a minimal runtime image
 FROM python:3.11-slim AS final
