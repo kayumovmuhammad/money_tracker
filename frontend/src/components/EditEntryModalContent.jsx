@@ -30,6 +30,16 @@ export default function EditEntryModalContent({ formData, setFormData }) {
         return () => subscription.unsubscribe();
     }, [watch]);
 
+    useEffect(() => {
+        if (Object.values(formData).includes(null)) {
+            const next = { ...formData };
+            Object.keys(next).forEach((key) => {
+                if (next[key] === null) delete next[key];
+            });
+            setFormData(next);
+        }
+    }, [formData, setFormData]);
+
     return <form className="flex flex-col gap-3">
         <div className="flex gap-3">
             <LabelLayout label="Payment type">

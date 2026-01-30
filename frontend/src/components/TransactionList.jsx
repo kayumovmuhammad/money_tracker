@@ -12,7 +12,7 @@ export default function TransactionList({className}) {
           No transactions recorded yet.
         </div>
       ) : (
-        transactions.map((t, index) => (
+        [...transactions].reverse().map((t, index) => (
           <TransactionItem key={index} transaction={t} />
         ))
       )}
