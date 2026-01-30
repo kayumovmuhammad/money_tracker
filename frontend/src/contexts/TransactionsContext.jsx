@@ -11,6 +11,8 @@ const useTransactions = create((set) => ({
         income_by_category: {},
         waste_by_category: {},
         sum_by_category: {},
+        income_by_days: {},
+        waste_by_days: {},
     },
     isTransactionsLoading: true,
     loadTransactions: (token) => {
@@ -40,6 +42,8 @@ const useTransactions = create((set) => ({
                 income_by_category: res.data.income_by_category,
                 waste_by_category: res.data.waste_by_category,
                 sum_by_category: res.data.sum_by_category,
+                income_by_days: res.data.income_by_days,
+                waste_by_days: res.data.waste_by_days,
             } });
             axiosCalls++;
             if (axiosCalls === 2) {

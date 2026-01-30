@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { Card, CardContent, Typography, Box } from '@mui/material';
@@ -6,7 +6,7 @@ import useTransactions from '../contexts/TransactionsContext';
 import useSettingsStore from '../contexts/SettingsContext';
 
 export default function StatsCharts() {
-    const { overal, transactions } = useTransactions();
+    const { overal } = useTransactions();
     const { selectedDate } = useSettingsStore();
 
     const transformData = (dataObj) => {
@@ -25,67 +25,31 @@ export default function StatsCharts() {
     // --- Daily Trend Logic ---
     const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
 
-    const calculateDailyTrend = (type) => {
-        if (!selectedDate) return [];
-        
+    const getDailyDataFromBackend = (dataMap) => {
+        if (!selectedDate || !dataMap) return [];
+
         const dateObj = new Date(selectedDate);
         const year = dateObj.getFullYear();
         const month = dateObj.getMonth(); // 0-indexed
         const daysInMonth = getDaysInMonth(year, month);
-        
-        // Initialize array for each day of the month (1 to daysInMonth)
-        const dailyTotals = Array(daysInMonth).fill(0);
 
-        // Filter transactions based on the requested type
-        const filteredTransactions = transactions.filter(t => 
-            type === 'expense' ? t.type !== 'income' : t.type === 'income'
-        );
+        const dailyData = [];
 
-        filteredTransactions.forEach(t => {
-            const amount = Math.abs(t.money_amount);
-            
-            if (t.payment_type === 'daily') {
-                for (let i = 0; i < daysInMonth; i++) {
-                    dailyTotals[i] += amount;
-                }
-            } else if (t.payment_type === 'weekly') {
-                const targetDayOfWeek = parseInt(t.day); // 0 = Mon, 6 = Sun
-                
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const currentDayDate = new Date(year, month, day);
-                    let jsDay = currentDayDate.getDay(); 
-                    let normalizedDay = jsDay === 0 ? 6 : jsDay - 1;
+        for (let day = 1; day <= daysInMonth; day++) {
+            const monthStr = String(month + 1).padStart(2, '0');
+            const dayStr = String(day).padStart(2, '0');
+            const dateKey = `${year}-${monthStr}-${dayStr}`;
 
-                    if (normalizedDay === targetDayOfWeek) {
-                        dailyTotals[day - 1] += amount;
-                    }
-                }
-            } else if (t.payment_type === 'monthly') {
-                 const dayOfMonth = parseInt(t.day);
-                 if (dayOfMonth >= 1 && dayOfMonth <= daysInMonth) {
-                     dailyTotals[dayOfMonth - 1] += amount;
-                 }
-            } else if (t.payment_type === 'annual') {
-                const [m, d] = t.day.split('-').map(Number);
-                if (m === month + 1 && d >= 1 && d <= daysInMonth) {
-                    dailyTotals[d - 1] += amount;
-                }
-            } else if (t.payment_type === 'once') {
-                const [y, m, d] = t.day.split('-').map(Number);
-                if (y === year && m === month + 1 && d >= 1 && d <= daysInMonth) {
-                    dailyTotals[d - 1] += amount;
-                }
-            }
-        });
-
-        return dailyTotals.map((amount, index) => ({
-            day: index + 1,
-            amount: amount 
-        }));
+            dailyData.push({
+                day: day,
+                amount: Math.abs(dataMap[dateKey] || 0)
+            });
+        }
+        return dailyData;
     };
 
-    const dailyExpensesData = calculateDailyTrend('expense');
-    const dailyIncomeData = calculateDailyTrend('income');
+    const dailyExpensesData = getDailyDataFromBackend(overal.waste_by_days);
+    const dailyIncomeData = getDailyDataFromBackend(overal.income_by_days);
     
     // Check if there is ANY data
     const hasAnyDailyData = dailyExpensesData.some(d => d.amount > 0) || dailyIncomeData.some(d => d.amount > 0);

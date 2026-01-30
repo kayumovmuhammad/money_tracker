@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Wallet, TrendingUp, ShieldCheck, ArrowRight, LayoutDashboard, Database } from "lucide-react";
+import Logo from "../ui-components/Logo";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -78,10 +79,7 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
-              <img src="/logo/transparent.png" className="w-50" alt="" />
-              {/* <Link to="/" className="font-extrabold text-2xl text-primary flex items-center gap-2.5">
-                Aura Budget
-              </Link> */}
+              <Logo />
             </div>
             <div className="hidden md:flex items-center gap-8">
               <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">Features</a>

@@ -17,7 +17,7 @@
 :root {
     /* Layout Variables */
     --sidebar-width: 260px;
-    --sidebar-padding-y: 30px;
+    --sidebar-padding-y: 20px;
     --sidebar-padding-x: 20px;
 
     --header-padding-y: 20px;

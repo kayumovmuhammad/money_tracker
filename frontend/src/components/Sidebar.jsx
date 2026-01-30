@@ -1,15 +1,14 @@
 import React from "react";
 import { sidebarElements } from "../data/sidebarElements";
 import { Link, useLocation } from "react-router-dom";
+import Logo from "../ui-components/Logo";
 
 export default function Sidebar({ onAddEntry }) {
   const { pathname } = useLocation();
 
   return (
     <nav className="hidden md:flex w-(--sidebar-width) bg-card border-r border-border flex-col py-(--sidebar-padding-y) px-(--sidebar-padding-x) transition-transform duration-300">
-      <Link to="/" className="font-extrabold text-2xl text-primary mb-10 flex items-center gap-2.5">
-        Aura Budget
-      </Link>
+      <Logo className="mb-8" />
       <div className="flex-1 list-none">
         {sidebarElements.map((item) => {
           if (item.mobileOnly) return null;
